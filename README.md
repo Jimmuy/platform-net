@@ -16,7 +16,7 @@ Add it in your root build.gradle at the end of repositories:
 ### Step 2. Add the dependency
 ```
 dependencies {
-	        implementation 'com.github.Jimmuy:platform:v1.0.9'
+	        implementation 'com.github.Jimmuy:platform-net:v1.0.0-net'
 	}
 ```
 ## Marven
@@ -33,13 +33,13 @@ dependencies {
 ```
   <dependency>
 	    <groupId>com.github.Jimmuy</groupId>
-	    <artifactId>platform</artifactId>
-	    <version>v1.0.0</version>
+	    <artifactId>platform-net</artifactId>
+	    <version>v1.0.0-net</version>
 	</dependency>
 ```
 
 
-## 1. 网络请求部分使用摘要
+## 1. 网络请求使用摘要
 
 方便易用，采用api链式调用一点到底,集成cookie管理,极简https配置,上传下载进度显示,请求错误自动重试,请求携带token、时间戳、签名sign动态配置,方便易用的GET,POST形式的请求,3种层次的参数设置默认全局局部,默认标准ApiResult同时可以支持自定义的数据结构以及非标准形式的返回，支持json/xml格式的数据解析
 
