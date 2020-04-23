@@ -1,6 +1,8 @@
 package com.jimmy.iot.net.base;
 
 
+import androidx.lifecycle.LiveData;
+
 import io.reactivex.Observable;
 
 import java.util.List;
@@ -23,13 +25,46 @@ import retrofit2.http.Streaming;
 import retrofit2.http.Url;
 
 public interface RequestService {
+
+
+    /**
+     * post方式的请求，content_type为x-www-form-urlencoded，支持Map键值对的传参
+     */
+    @POST()
+    @FormUrlEncoded
+    LiveData<ResponseBody> post2(@Url String url, @FieldMap Map<String, String> maps);
+
+
+    @POST()
+    LiveData<ResponseBody> postBody2(@Url String url, @Body Object object);
+
+
+    /**
+     * post方式的请求，传输和接收json格式的请求
+     */
+    @POST()
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    LiveData<ResponseBody> postJson2(@Url String url, @Body RequestBody jsonBody);
+
+    /**
+     * post方式的请求，传输和接收xml格式的请求
+     */
+    @POST()
+    @Headers({"Content-Type: application/xml", "Accept: application/xml"})
+    LiveData<ResponseBody> postXml2(@Url String url, @Body RequestBody jsonBody);
+
+    @POST()
+    LiveData<ResponseBody> postBody2(@Url String url, @Body RequestBody body);
+
+    @GET()
+    LiveData<ResponseBody> get2(@Url String url, @QueryMap Map<String, String> maps);
+
     /**
      * post方式的请求，content_type为x-www-form-urlencoded，支持Map键值对的传参
      */
     @POST()
     @FormUrlEncoded
     Observable<ResponseBody> post(@Url String url, @FieldMap Map<String, String> maps);
-
 
     @POST()
     Observable<ResponseBody> postBody(@Url String url, @Body Object object);
