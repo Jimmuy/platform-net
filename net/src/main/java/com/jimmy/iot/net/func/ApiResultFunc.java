@@ -25,6 +25,8 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 import okhttp3.ResponseBody;
 
+import static com.jimmy.iot.net.model.ApiResult.DEFAULT_SUCCESS_CODE;
+
 
 /**
  * <p>描述：定义了ApiResult结果转换Func</p>
@@ -75,8 +77,8 @@ public class ApiResultFunc<T> implements Function<ResponseBody, ApiResult<T>> {
                     String json = responseBody.string();
                     //增加是List<String>判断错误的问题
                     if (!List.class.isAssignableFrom(rawType) && clazz.equals(String.class)) {
-                        apiResult.setBaseData((T) json);
-                        apiResult.setCode(0);
+                        apiResult.setData((T) json);
+                        apiResult.setCode(DEFAULT_SUCCESS_CODE);
                     } else {
                         ApiResult result = null;
                         if (isJson) {
@@ -90,8 +92,8 @@ public class ApiResultFunc<T> implements Function<ResponseBody, ApiResult<T>> {
                             result = new ApiResult();
                             T data = (T) xmlSerializer.read(clazz, json);
                             if (data != null) {
-                                result.setBaseData(data);
-                                result.setCode(200);
+                                result.setData(data);
+                                result.setCode(DEFAULT_SUCCESS_CODE);
                                 result.setMsg("success");
                             } else {
                                 result.setCode(-2);
@@ -120,7 +122,7 @@ public class ApiResultFunc<T> implements Function<ResponseBody, ApiResult<T>> {
                     final ApiResult result = parseApiResult(json, apiResult);
                     if (result != null) {
                         apiResult = result;
-                        apiResult.setBaseData((T) json);
+                        apiResult.setData((T) json);
                     } else {
                         apiResult.setMsg("json is null");
                     }
@@ -128,9 +130,9 @@ public class ApiResultFunc<T> implements Function<ResponseBody, ApiResult<T>> {
                     final ApiResult result = parseApiResult(json, apiResult);
                     if (result != null) {
                         apiResult = result;
-                        if (apiResult.getBaseData() != null) {
-                            T data = gson.fromJson(apiResult.getBaseData().toString(), clazz);
-                            apiResult.setBaseData(data);
+                        if (apiResult.getData() != null) {
+                            T data = gson.fromJson(apiResult.getData().toString(), clazz);
+                            apiResult.setData(data);
                         } else {
                             apiResult.setMsg("ApiResult's data is null");
                         }
@@ -159,7 +161,7 @@ public class ApiResultFunc<T> implements Function<ResponseBody, ApiResult<T>> {
             apiResult.setCode(jsonObject.getInt("code"));
         }
         if (jsonObject.has("data")) {
-            apiResult.setBaseData(jsonObject.getString("data"));
+            apiResult.setData(jsonObject.getString("data"));
         }
         if (jsonObject.has("msg")) {
             apiResult.setMsg(jsonObject.getString("msg"));
